@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { HttpModule } from '@angular/http';
 
 // Components
 import { AppComponent } from './app.component';
@@ -8,6 +9,9 @@ import { CategoriesComponent } from './categories/categories.component';
 import { ProductsComponent } from './products/products.component';
 import { AboutUsComponent } from './about-us/about-us.component';
 import { StatisticsComponent } from './statistics/statistics.component';
+
+// Services
+import { CategoriesService } from './Services/categories.service';
 
 // Routes
 import { routing } from "./app.routes";
@@ -24,9 +28,12 @@ import { routing } from "./app.routes";
   ],
   imports: [
     BrowserModule,
-    routing 
+    HttpModule,
+    routing
   ],
-  providers: [],
+  providers: [
+    CategoriesService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

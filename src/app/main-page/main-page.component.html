@@ -1,3 +1,66 @@
-<p>
-  main-page works!
-</p>
+<script type="text/javascript">
+    var myVideo = document.getElementById("video1");
+
+    function playPause() {
+        if (myVideo.paused)
+            myVideo.play();
+        else
+            myVideo.pause();
+    }
+
+    function makeBig() {
+        myVideo.width = 520;
+    }
+
+    function makeSmall() {
+        myVideo.width = 320;
+    }
+
+    function makeNormal() {
+        myVideo.width = 420;
+    }
+
+</script>
+
+<div class="background">
+    <div class="row">
+        <section class="col-md-6">
+            <button class="btn btn-default" onclick="playPause()">Play/Pause</button>
+            <button class="btn btn-default" onclick="makeBig()">Big</button>
+            <button class="btn btn-default" onclick="makeSmall()">Small</button>
+            <button class="btn btn-default" onclick="makeNormal()">Normal</button>
+            <br><br>
+            <video id="video1" width="420" controls>
+                <source src="../sport.mp4" type="video/mp4">
+                Your browser does not support HTML5 video.
+            </video>
+        </section>
+        <aside>
+            <div class="col-md-3">
+                <a href="" class="darken">
+                    <div class="mag">
+                        <img src="../images/sportgirl.jpg" height="35%" width="100%" data-toggle="magnify" alt="" />
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-3">
+                <a href="" class="darken">
+                    <div class="mag">
+                        <img src="../images/sportman.jpg" height="30%" width="100%" data-toggle="magnify" alt="" />
+                    </div>
+                </a>
+                <br />
+            </div>
+            <br /><br /><br />
+            <div class="row">
+                <div class="col-md-6"></div>
+                <br /><br />
+                <div class="col-md-6">
+                    <a href="" class="darken">
+                        <img src="../images/sportkids.jpg" height="300px" width="500px" data-toggle="magnify" alt="" />
+                    </a>
+                </div>
+            </div>
+        </aside>
+    </div>
+</div>

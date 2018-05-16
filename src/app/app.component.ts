@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   Router, RouterEvent, NavigationStart,
   NavigationEnd, NavigationCancel, NavigationError
@@ -9,9 +9,24 @@ import {
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'Vibe';
   public loading: boolean = true;
+
+  ngOnInit() {
+    var c :any = document.getElementById("myCanvas");
+    var ctx = c.getContext("2d");
+
+    // Create gradient
+    var grd = ctx.createRadialGradient(15, 20, 5, 40, 20, 100);
+    grd.addColorStop(0, "black");
+    grd.addColorStop(1, "red");
+
+    // Fill with gradient
+    ctx.fillStyle = grd;
+    ctx.font = "18px CURSIVE";
+    ctx.fillText("© Vibe Store Application", 5, 50);
+  }
 
   constructor(private router: Router) {
     this.router.events.subscribe((event: RouterEvent) => {

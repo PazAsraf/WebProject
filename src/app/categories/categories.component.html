@@ -1,3 +1,41 @@
-<p>
-  categories works!
-</p>
+<h2>Categories</h2>
+<div *ngIf="this.categories !== undefined">
+    <table class="table">
+        <tr>
+            <th>
+                Add
+            </th>
+            <th>
+                Search
+            </th>
+        </tr>
+        <tr>
+            <td>
+                <input type="text" class="form-control col-xs-3" placeholder="add new category..." ng-model="newCategory"
+                        style="margin-right:5px;" />
+                <button class="btn btn-primary btn-sm" ng-click="addCategory()"
+                        style="margin-top:2px;">Add!</button>
+            </td>
+            <td>
+                <input type="text" class="form-control col-xs-3" placeholder="search category..." ng-model="nameFilter" />
+            </td>
+        </tr>
+    </table>
+    <table class="table">
+        <tr>
+            <th>
+                Category Name
+            </th>
+            <th></th>
+        </tr>
+        <tr *ngFor="let category of this.categories">
+            <td>
+              {{category.name}}
+            </td>
+            <td>
+                <button class="btn btn-default" (click)="deleteCategory(category)">Delete</button>
+            </td>
+        </tr>
+    </table>
+</div>
+<div ng-bind="this.error"></div>
