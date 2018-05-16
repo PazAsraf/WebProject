@@ -1,20 +1,43 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
 
+    <body ng-app="RoloSport">
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <img class="logoImage" src="assets/images/vibeLogo.png" />
+                <div class="navbar-header">
+                    <a class="navbar-brand" routerLink="main-page">Vibe</a>
+                </div>
+
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li><a routerLink="categories">Categories</a></li>
+                        <li><a routerLink="products">Products</a></li>
+                        <li><a routerLink="about-us">About Us</a></li>
+                        <li><a routerLink="statistics">Statistics</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="container body-content background">
+            <!--<div ui-view></div>-->
+            <router-outlet></router-outlet>
+        </div>
+        <hr />
+        <footer>
+            <p>&copy; Vibe Store Application</p>
+        </footer>
+
+        <script src="scripts/vendor/jquery-1.10.2.js"></script>
+        <script src="scripts/vendor/jquery.simpleWeather.js"></script>
+        <script src="scripts/vendor/underscore.min.js"></script>
+        <script src="socket.io/socket.io.js"></script>
+        <script src="scripts/vendor/angular.js"></script>
+        <script src="scripts/vendor/angular-ui-router.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js"></script>
+        <script src="scripts/app/app.js"></script>
+        <script src="scripts/app/categoriesCtrl.js"></script>
+        <script src="scripts/app/productsCtrl.js"></script>
+        <script src="scripts/vendor/Images.js"></script>
+        <script src="scripts/app/aboutCtrl.js"></script>
+        <script src="scripts/app/graphCtrl.js"></script>
+
+    </body>

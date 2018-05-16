@@ -1,4 +1,8 @@
 import { Component } from '@angular/core';
+import {
+  Router, RouterEvent, NavigationStart,
+  NavigationEnd, NavigationCancel, NavigationError
+} from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +10,23 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'app';
+  title = 'Vibe';
+  public loading: boolean = true;
+
+  constructor(private router: Router) {
+    this.router.events.subscribe((event: RouterEvent) => {
+      this.navigationInterceptor(event);
+    });
+  }
+
+  private navigationInterceptor(event: RouterEvent) {
+    if (event instanceof NavigationStart) {
+      this.loading = true;
+    }
+
+    if (event instanceof NavigationEnd ||
+      event instanceof NavigationCancel ||
+      event instanceof NavigationError) {
+    }
+  }
 }
