@@ -17,7 +17,7 @@ export class CategoriesService {
   public removeCategory(categoryId: string): Observable<any> {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    return this._http.delete("/api/categories" + categoryId, { headers });
+    return this._http.delete("/api/categories/" + categoryId, { headers });
   }
 
   public addCategory(category: string): Observable<any> {

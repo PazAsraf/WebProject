@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
+import { FormsModule } from '@angular/forms';
 
 // Components
 import { AppComponent } from './app.component';
@@ -13,8 +14,12 @@ import { StatisticsComponent } from './statistics/statistics.component';
 // Services
 import { CategoriesService } from './Services/categories.service';
 
+// Pipes
+import { CategoryPipe } from './Pipes/category.pipe';
+
 // Routes
 import { routing } from "./app.routes";
+
 
 
 @NgModule({
@@ -24,12 +29,14 @@ import { routing } from "./app.routes";
     CategoriesComponent,
     ProductsComponent,
     AboutUsComponent,
-    StatisticsComponent
+    StatisticsComponent,
+    CategoryPipe
   ],
   imports: [
     BrowserModule,
     HttpModule,
-    routing
+    routing,
+    FormsModule
   ],
   providers: [
     CategoriesService

@@ -9,6 +9,8 @@ import { CategoriesService } from '../Services/categories.service';
 export class CategoriesComponent implements OnInit {
   public categories: any;
   public error: string;
+  public newCategory: string;
+  filter: string;
 
   constructor(private _categoriesService: CategoriesService)
   {
@@ -22,7 +24,7 @@ export class CategoriesComponent implements OnInit {
   }
 
   public deleteCategory(category: any) {
-    this._categoriesService.removeCategory(category.id)
+    this._categoriesService.removeCategory(category._id)
           .subscribe(() => {
             this.categories.splice(this.categories.indexOf(category), 1);
           }, err => {
@@ -30,23 +32,24 @@ export class CategoriesComponent implements OnInit {
           });
   }
 
-  public addCategory(newCategory: string) {
+  public addCategory() {
 
     // Check if not valid
-    if (!newCategory || newCategory.length > 50){
+    if (!this.newCategory || this.newCategory.length > 50){
         alert('name not valid');
         return;
     }
     // Check if exist
-    if (this.categories.findIndex(c => c.name === newCategory) !== -1){
+    if (this.categories.findIndex(c => c.name === this.newCategory) !== -1){
         alert('name already exists!');
         return;
     }
 
     // Add
-    this._categoriesService.addCategory(newCategory)
+    this._categoriesService.addCategory(this.newCategory)
           .subscribe(res => {
-            this.categories.push(res.data);
+            this.categories.push(res.json());
+            this.newCategory = "";
             //app.server.emit('categories', self.categories);
           }, err => {
             this.error = 'error adding category';
