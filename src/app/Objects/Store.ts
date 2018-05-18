@@ -5,8 +5,4 @@ export class Store {
   city: string;
   lat: number;
   lng: number;
-
-  constructor() {
-
-  }
 }

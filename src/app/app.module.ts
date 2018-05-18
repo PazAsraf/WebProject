@@ -11,9 +11,12 @@ import { CategoriesComponent } from './Components/categories/categories.componen
 import { ProductsComponent } from './Components/products/products.component';
 import { AboutUsComponent } from './Components/about-us/about-us.component';
 import { StatisticsComponent } from './Components/statistics/statistics.component';
+import { NewProductComponent } from './Components/new-product/new-product.component';
+import { UpdateProductComponent } from './Components/update-product/update-product.component';
 
 // Services
 import { CategoriesService } from './Services/categories.service';
+import { ProductsService } from './Services/products.service';
 import { StoreService } from './Services/store.service';
 
 // Pipes
@@ -21,8 +24,6 @@ import { CategoryPipe } from './Pipes/category.pipe';
 
 // Routes
 import { routing } from "./app.routes";
-
-
 
 @NgModule({
   declarations: [
@@ -32,7 +33,9 @@ import { routing } from "./app.routes";
     ProductsComponent,
     AboutUsComponent,
     StatisticsComponent,
-    CategoryPipe
+    CategoryPipe,
+    NewProductComponent,
+    UpdateProductComponent
   ],
   imports: [
     BrowserModule,
@@ -45,7 +48,8 @@ import { routing } from "./app.routes";
   ],
   providers: [
     CategoriesService,
-    StoreService
+    StoreService,
+    ProductsService
   ],
   bootstrap: [AppComponent]
 })

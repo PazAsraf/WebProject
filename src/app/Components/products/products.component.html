@@ -1,3 +1,73 @@
-<p>
-  products works!
-</p>
+<h2>Products</h2>
+<div>
+    <span class="col-xs-6">
+        <a routerLink="../new-product"><button class="btn btn-default">Create New</button></a>
+    </span>
+</div>
+
+<br /><br />
+<div>
+    <h4>Search</h4>
+    <table class="table">
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Price
+            </th>
+            <th>
+                Categories
+            </th>
+            <th>
+            </th>
+        </tr>
+        <tr>
+            <td>
+                <input class="form-control" type="text" placeholder="enter product name..." [(ngModel)]="searchProduct.name" />
+            </td>
+            <td>
+                <input type="number" placeholder="enter product price..." class="form-control" [(ngModel)]="searchProduct.price"/>
+            </td>
+            <td>
+                <select class="form-control" name="categoriesSelect" [(ngModel)]="searchProduct.categoryId">
+                    <option value="" selected>-enter category...-</option>
+                    <option *ngFor="let category of this.categories" value="{{category._id}}">{{category.name}}</option>
+                </select>
+            </td>
+            <td>
+                <button class="btn btn-primary" (click)="Search()">Find</button>
+            </td>
+        </tr>
+    </table>
+    <table class="table">
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Price
+            </th>
+            <th>
+                Category Name
+            </th>
+            <th></th>
+        </tr>
+
+        <tr *ngFor="let product of this.products">
+            <td>
+                <span>{{product.name}}</span>
+            </td>
+            <td>
+                <span>{{product.price}}</span>
+            </td>
+            <td>
+                <span>{{ getCategory(product.categoryId) }}</span>
+            </td>
+            <td>
+                <button class="btn btn-default" ng-click="productsCtrl.goToEditProduct(product)">Edit</button>
+                <button class="btn btn-default" (click)="deleteProduct(product)">Delete</button>
+            </td>
+        </tr>
+    </table>
+</div>

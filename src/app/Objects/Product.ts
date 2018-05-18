@@ -3,8 +3,4 @@ export class Product {
   name: string;
   price: number;
   categoryId: string;
-
-  constructor() {
-    
-  }
 }
