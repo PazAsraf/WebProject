@@ -1,0 +1,29 @@
+.multi-cols {
+    -webkit-column-count: 4; /* Chrome, Safari, Opera */
+    column-count: 4;
+    border: 2px solid black;
+    border-radius: 25px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.whiten:hover {
+    opacity: 0.7;
+}
+
+.multi-cols img {
+  height: 280px;
+  width: 250px;
+  display: block;
+}
+
+.page-title {
+    text-shadow: 2px 2px #de657f;
+    text-align: center;
+    transition: background-color 2s, height 4s;
+    border-radius: 40px;
+}
+
+.page-title:hover {
+    background-color: lightgray;
+}

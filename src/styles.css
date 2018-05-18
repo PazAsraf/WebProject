@@ -28,3 +28,16 @@ textarea {
   float: right;
   height: 60px;
 }
+
+body {
+    font-family: 'Tahoma';
+    background-image: url('/assets/images/background.jpg');
+    background-size: cover;
+}
+
+footer {
+  position: absolute;
+  background: white;
+  opacity: 0.7;
+  width: 100%;
+}

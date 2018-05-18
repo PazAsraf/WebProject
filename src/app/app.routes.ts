@@ -1,11 +1,11 @@
 import { ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { MainPageComponent } from './main-page/main-page.component';
-import { CategoriesComponent } from './categories/categories.component';
-import { ProductsComponent } from './products/products.component';
-import { AboutUsComponent } from './about-us/about-us.component';
-import { StatisticsComponent } from './statistics/statistics.component';
+import { MainPageComponent } from './Components/main-page/main-page.component';
+import { CategoriesComponent } from './Components/categories/categories.component';
+import { ProductsComponent } from './Components/products/products.component';
+import { AboutUsComponent } from './Components/about-us/about-us.component';
+import { StatisticsComponent } from './Components/statistics/statistics.component';
 
 export const routes: Routes = [
   { path: 'main-page', component: MainPageComponent },

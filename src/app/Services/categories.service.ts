@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Observable';
+import { Category } from '../Objects/Category';
 
 @Injectable()
 export class CategoriesService {
 
   constructor(private _http: Http) { }
 
-  public getAllCategories() {
+  public getAllCategories() : Observable<Category[]> {
     return this._http.get("/api/categories")
       .map(result =>
         result.json());
