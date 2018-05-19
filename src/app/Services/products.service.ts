@@ -34,4 +34,10 @@ export class ProductsService {
     return this._http.post("/api/products", newProduct, { headers: headers });
   }
 
+  public updateProduct(productToUpdate: Product): Observable<any> {
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    return this._http.put("/api/products", productToUpdate, { headers: headers });
+  }
+
 }

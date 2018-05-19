@@ -1,0 +1,3 @@
+﻿mongoimport --db Vibe --collection categories --file "נתיב שלכם"\categories.json
+mongoimport --db Vibe --collection products --file "נתיב שלכם"\products.json
+mongoimport --db Vibe --collection stores --file "נתיב שלכם"\stores.json

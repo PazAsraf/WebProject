@@ -1,0 +1,4 @@
+{ "_id" : { "$oid" : "5afd409690b8f4272020d459" }, "name" : "Woman" }
+{ "_id" : { "$oid" : "5afd416ad7c19309301a984c" }, "name" : "Men" }
+{ "_id" : { "$oid" : "5afd42aa26e01b06c0753f93" }, "name" : "Kids" }
+{ "_id" : { "$oid" : "5afd42f326e01b06c0753f94" }, "name" : "Shoes" }

@@ -14,6 +14,8 @@ export class ProductsComponent implements OnInit {
   public searchProduct: Product = new Product();
   public categories: Category[];
   public products: Product[];
+  public selectedProduct: Product = new Product();
+  public updateMode: boolean = false;
 
   constructor(private _productsService: ProductsService, private _categoriesService: CategoriesService) {
     // Get all categories
@@ -52,6 +54,21 @@ export class ProductsComponent implements OnInit {
     });
   }
 
+  public updateProduct(product: Product) {
+    this.selectedProduct = product;
+    this.updateMode = true;
+
+  }
+
+  public finishUpdate() {
+    // Get all ProductsServic
+    this._productsService.getAllProducts().subscribe(allProducts => {
+      this.products = allProducts;
+      this.updateMode = false;
+    }, (err)=> {
+      console.log(err);
+    });
+  }
   ngOnInit() {
   }
 

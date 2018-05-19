@@ -1,0 +1,34 @@
+
+<div>
+    <div class="form-horizontal">
+        <div class="form-group">
+            <span class="control-label col-md-2">Name</span>
+            <div class="col-md-10">
+                <input type="text" placeholder="enter product name..." class="form-control" [(ngModel)]="productToEdit.name"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <span class="control-label col-md-2">Price</span>
+            <div class="col-md-10">
+                <input type="number" placeholder="enter product price..." class="form-control" [(ngModel)]="productToEdit.price"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <span class="control-label col-md-2">Category</span>
+            <div class="col-md-10">
+                <select class="form-control" name="categoriesSelect" [(ngModel)]="productToEdit.categoryId">
+                  <option *ngFor="let category of this.categories" value="{{category._id}}">{{category.name}}</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <button class="btn btn-primary" (click)="editProduct()">Save</button>
+            </div>
+        </div>
+    </div>
+    <button class="btn btn-default" (click)="back()">Back</button>
+</div>

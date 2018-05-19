@@ -7,7 +7,6 @@ import { ProductsComponent } from './Components/products/products.component';
 import { AboutUsComponent } from './Components/about-us/about-us.component';
 import { StatisticsComponent } from './Components/statistics/statistics.component';
 import { NewProductComponent } from './Components/new-product/new-product.component';
-import { UpdateProductComponent } from './Components/update-product/update-product.component';
 
 export const routes: Routes = [
   { path: 'main-page', component: MainPageComponent },
@@ -16,7 +15,6 @@ export const routes: Routes = [
   { path: 'about-us', component: AboutUsComponent },
   { path: 'statistics', component: StatisticsComponent },
   { path: 'new-product', component: NewProductComponent },
-  { path: 'update-product', component: UpdateProductComponent },
   { path: '**', component: MainPageComponent }
 ];
 

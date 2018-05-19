@@ -12,7 +12,7 @@ import { ProductsComponent } from './Components/products/products.component';
 import { AboutUsComponent } from './Components/about-us/about-us.component';
 import { StatisticsComponent } from './Components/statistics/statistics.component';
 import { NewProductComponent } from './Components/new-product/new-product.component';
-import { UpdateProductComponent } from './Components/update-product/update-product.component';
+import { UpdateProductComponent } from './Components/products/update-product/update-product.component';
 
 // Services
 import { CategoriesService } from './Services/categories.service';

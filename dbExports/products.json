@@ -1,0 +1,3 @@
+{ "_id" : { "$oid" : "5afa8b666d433e0027d1e3e5" }, "name" : "Running shoes", "price" : 300, "categoryId" : "5afd42f326e01b06c0753f94" }
+{ "_id" : { "$oid" : "5afa8b666d433e0027d1e3e6" }, "name" : "Black Dri-FIT", "price" : 200, "categoryId" : "5afd409690b8f4272020d459" }
+{ "_id" : { "$oid" : "5aff1b60a4f5384fbc021bec" }, "name" : "High Heels", "price" : 80, "categoryId" : "5afd42f326e01b06c0753f94" }

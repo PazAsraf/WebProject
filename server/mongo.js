@@ -100,17 +100,21 @@ router.post('/products/search', function(request, response) {
 
 // api - products - put
 router.put('/products', function(request, response) {
-	console.log(request.body);
+  const product = request.body;
+	console.log(request.body._id);
 	connection((db) => {
 		let dbInstance = db.db(dbName);
-		dbInstance.collection('products').updateOne({"_id": new ObjectID(request.body._id)},{
-			name: request.body.name,
-			price: request.body.price,
-			categoryId: request.body.categoryId
-		}, function(err, result) {
-			console.log("updated " + result);
-			response.json(request.body);
-		});
+		dbInstance.collection('products').updateOne(
+      { "_id": new ObjectID(product._id) },
+      { "$set" : { name: product.name,
+                   price: product.price,
+                   categoryId: product.categoryId }}).then((newProd) => {
+        console.log("updated " + newProd);
+        response.json(newProd[0]);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
 	});
 });
 
