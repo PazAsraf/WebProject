@@ -4,21 +4,23 @@
         <div class="form-group">
             <span class="control-label col-md-2">Name</span>
             <div class="col-md-10">
-                <input type="text" placeholder="enter product name..." class="form-control" [(ngModel)]="productToEdit.name"/>
+                <input type="text" placeholder="enter product name..." class="form-control" [(ngModel)]="productToEdit.name"
+                       [class.InputError]="isNameError"/>
             </div>
         </div>
 
         <div class="form-group">
             <span class="control-label col-md-2">Price</span>
             <div class="col-md-10">
-                <input type="number" placeholder="enter product price..." class="form-control" [(ngModel)]="productToEdit.price"/>
+                <input type="number" placeholder="enter product price..." class="form-control" [(ngModel)]="productToEdit.price"
+                       [class.InputError]="isPriceError"/>
             </div>
         </div>
 
         <div class="form-group">
             <span class="control-label col-md-2">Category</span>
             <div class="col-md-10">
-                <select class="form-control" name="categoriesSelect" [(ngModel)]="productToEdit.categoryId">
+                <select class="form-control" name="categoriesSelect" [(ngModel)]="productToEdit.categoryId" [class.InputError]="isCategoryError">
                   <option *ngFor="let category of this.categories" value="{{category._id}}">{{category.name}}</option>
                 </select>
             </div>

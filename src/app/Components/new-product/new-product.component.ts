@@ -4,6 +4,7 @@ import { Product } from '../../Objects/Product';
 import { CategoriesService } from '../../Services/categories.service';
 import { Category } from '../../Objects/Category';
 import { Router } from '@angular/router';
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'app-new-product',
@@ -14,6 +15,9 @@ export class NewProductComponent implements OnInit {
 
   public newProduct: Product = new Product();
   public categories: Category[];
+  isNameError = false;
+  isPriceError = false;
+  isCategoryError = false;
 
   constructor(private _productsService: ProductsService, private _categoriesService: CategoriesService, private router: Router) {
     // Get all categories
@@ -25,13 +29,45 @@ export class NewProductComponent implements OnInit {
   }
 
   public addProduct() {
-    // Check valid
-    if (this.newProduct.name == undefined ||
-        this.newProduct.categoryId == undefined ||
-        this.newProduct.price == undefined) {
-        alert('somethins is wrong ...');
-        return;
+    if (this.newProduct.name == undefined) {
+      this.isNameError = true;
+      swal({
+        type: 'error',
+        title: 'Bad Input!',
+        text: 'Please Enter Product Name'
+      });
+      return;
+    } else if (this.newProduct.price == undefined) {
+      this.isNameError = false;
+      this.isPriceError = true;
+      swal({
+        type: 'error',
+        title: 'Bad Input!',
+        text: 'Please Enter Product Price'
+      });
+      return;
+    } else if (this.newProduct.price < 1 ) {
+      this.isNameError = false;
+      this.isPriceError = true;
+      swal({
+        type: 'error',
+        title: 'Bad Input!',
+        text: 'Please Enter Positive Product Price'
+      });
+      return;
+    } else if (this.newProduct.categoryId == undefined) {
+      this.isNameError = false;
+      this.isPriceError = false;
+      this.isCategoryError = true;
+      swal({
+        type: 'error',
+        title: 'Bad Input!',
+        text: 'Please Choose A Category'
+      });
+      return;
     }
+
+    this.isCategoryError = false;
 
     this._productsService.addProduct(this.newProduct).subscribe(rep => {
       //return to all products
@@ -39,6 +75,21 @@ export class NewProductComponent implements OnInit {
     }, (err) => {
       console.log(err);
     });
+
+    swal({
+      title: 'Processing...',
+      text: 'Adding Product - ' + this.newProduct.name,
+      timer: 1500,
+      onOpen: () => {
+        swal.showLoading();
+      }
+    }).then( () =>
+      swal(
+        'Done, ',
+        'The Product ' + this.newProduct.name + ' Added Successfully',
+        'success'
+      )
+    );
   }
 
   ngOnInit() {

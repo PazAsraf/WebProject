@@ -3,6 +3,7 @@ import { ProductsService } from '../../Services/products.service';
 import { Product } from '../../Objects/Product';
 import { CategoriesService } from '../../Services/categories.service';
 import { Category } from '../../Objects/Category';
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'app-products',
@@ -47,11 +48,38 @@ export class ProductsComponent implements OnInit {
   }
 
   public deleteProduct(product: Product) {
-    this._productsService.removeProduct(product._id).subscribe(() => {
-      this.products.splice(this.products.indexOf(product), 1);
-    }, (err)=> {
-      console.log(err);
-    });
+    swal({
+      title: 'Are you sure You Want To Delete ' + product.name + ' ?',
+      text: 'Think About It',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.value) {
+        this._productsService.removeProduct(product._id).subscribe(() => {
+          this.products.splice(this.products.indexOf(product), 1);
+        }, (err) => {
+          console.log(err);
+        });
+      }
+    }).then( () =>
+      swal({
+        title: 'Processing...',
+        text: 'Deleting The Category - ' + product.name,
+        timer: 1500,
+        onOpen: () => {
+          swal.showLoading();
+        }
+      }).then(() => {
+        swal(
+          'Done, ',
+          'The Category ' + product.name + ' Deleted Successfuly',
+          'success'
+        );
+      })
+    );
   }
 
   public updateProduct(product: Product) {
