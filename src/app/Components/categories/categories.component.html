@@ -12,7 +12,7 @@
         <tr>
             <td>
                 <input type="text" class="form-control col-xs-3 addCategory"
-                       placeholder="add new category..." [(ngModel)]="this.newCategory" [class.errorCategoryInput]="errorCatInput" />
+                       placeholder="add new category..." [(ngModel)]="this.newCategory" [class.InputError]="errorCatInput" />
                 <button class="btn btn-primary btn-sm" (click)="addCategory()" style="margin-top:2px;">Add!</button>
             </td>
             <td>

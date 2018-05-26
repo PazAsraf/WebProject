@@ -26,14 +26,25 @@ export class CategoriesComponent implements OnInit {
   }
 
   public deleteCategory(category: Category) {
-    this._categoriesService.removeCategory(category._id)
-      .subscribe(() => {
-        this.categories.splice(this.categories.indexOf(category), 1);
-      }, err => {
-        this.error = 'error deleting category';
-      });
-
     swal({
+      title: 'Are you sure You Want To Delete ' + category.name + ' ?',
+      text: 'Think About It',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.value) {
+        this._categoriesService.removeCategory(category._id)
+          .subscribe(() => {
+            this.categories.splice(this.categories.indexOf(category), 1);
+          }, err => {
+            this.error = 'error deleting category';
+          });
+      }
+    }).then( () =>
+      swal({
       title: 'Processing...',
       text: 'Deleting The Category - ' + category.name,
       timer: 1500,
@@ -46,7 +57,8 @@ export class CategoriesComponent implements OnInit {
         'The Category ' + category.name + ' Deleted Successfuly',
         'success'
       );
-    });
+    })
+    );
   }
 
   public addCategory() {

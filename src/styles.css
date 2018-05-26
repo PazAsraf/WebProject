@@ -44,6 +44,6 @@ footer {
 .addCategory {
   margin-right:5px;
 }
-.errorCategoryInput {
+.InputError {
   border: 1px solid #ff4d4d;
 }
