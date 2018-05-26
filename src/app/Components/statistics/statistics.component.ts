@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ProductsService } from '../../Services/products.service';
 
 @Component({
   selector: 'app-statistics',
@@ -7,7 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class StatisticsComponent implements OnInit {
 
-  constructor() { }
+  public statistics: any;
+
+  constructor(private _productsService: ProductsService) {
+    this._productsService.productsByCategory().subscribe(grouped => {
+      this.statistics = grouped;
+    }, (err)=> {
+      console.log(err);
+    });
+  }
 
   ngOnInit() {
   }

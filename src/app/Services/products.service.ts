@@ -22,6 +22,14 @@ export class ProductsService {
         result.json());
   }
 
+  public productsByCategory() : Observable<Product[]> {
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    return this._http.post("/api/products-by-category", { headers })
+      .map(result =>
+        result.json());
+  }
+
   public removeProduct(productId: string): Observable<any> {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
