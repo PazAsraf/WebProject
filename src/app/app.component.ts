@@ -19,7 +19,7 @@ export class AppComponent implements OnInit {
 
     // Create gradient
     var grd = ctx.createRadialGradient(15, 20, 5, 40, 20, 100);
-    grd.addColorStop(0, "black");
+    grd.addColorStop(0, "white");
     grd.addColorStop(1, "red");
 
     // Fill with gradient
