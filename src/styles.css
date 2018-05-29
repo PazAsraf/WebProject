@@ -29,8 +29,13 @@ textarea {
   height: 60px;
 }
 
+@font-face {
+  font-family: VibeFont;
+  src: url(Artifika-Regular.ttf);
+}
+
 body {
-    font-family: 'Tahoma';
+    font-family: VibeFont;
     background-image: url('/assets/images/background.jpg');
     background-size: cover;
 }
