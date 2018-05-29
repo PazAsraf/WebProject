@@ -8,7 +8,7 @@ import { Store } from '../../Objects/Store'
   styleUrls: ['./about-us.component.css']
 })
 export class AboutUsComponent implements OnInit {
-  public myStore: Store;
+  public myStore: Store = new Store();
 
   constructor(private _storeService: StoreService) {
     this._storeService.getStore().subscribe(res => {

@@ -3,6 +3,8 @@ import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
 import { AgmCoreModule } from '@agm/core';
+import { ShareButtonModule } from '@ngx-share/button';
+import { HttpClientModule, HttpClientJsonpModule } from '@angular/common/http';
 
 // Components
 import { AppComponent } from './app.component';
@@ -42,6 +44,9 @@ import { routing } from "./app.routes";
     HttpModule,
     routing,
     FormsModule,
+    HttpClientModule,      // (Required) for share counts
+    HttpClientJsonpModule, // (Optional) For Tumblr counts
+    ShareButtonModule.forRoot(),
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyDfIZdY2EgLY9FKt1ogJ4uuwHdO4beAT9I'
     })
