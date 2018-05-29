@@ -63,23 +63,23 @@ export class ProductsComponent implements OnInit {
         }, (err) => {
           console.log(err);
         });
+
+        swal({
+          title: 'Processing...',
+          text: 'Deleting The Category - ' + product.name,
+          timer: 1500,
+          onOpen: () => {
+            swal.showLoading();
+          }
+        }).then(() => {
+          swal(
+            'Done, ',
+            'The Category ' + product.name + ' Deleted Successfuly',
+            'success'
+          );
+        });
       }
-    }).then( () =>
-      swal({
-        title: 'Processing...',
-        text: 'Deleting The Category - ' + product.name,
-        timer: 1500,
-        onOpen: () => {
-          swal.showLoading();
-        }
-      }).then(() => {
-        swal(
-          'Done, ',
-          'The Category ' + product.name + ' Deleted Successfuly',
-          'success'
-        );
-      })
-    );
+    });
   }
 
   public updateProduct(product: Product) {

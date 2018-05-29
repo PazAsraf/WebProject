@@ -42,23 +42,23 @@ export class CategoriesComponent implements OnInit {
           }, err => {
             this.error = 'error deleting category';
           });
+
+        swal({
+          title: 'Processing...',
+          text: 'Deleting The Category - ' + category.name,
+          timer: 1500,
+          onOpen: () => {
+            swal.showLoading();
+          }
+        }).then(() => {
+          swal(
+            'Done, ',
+            'The Category ' + category.name + ' Deleted Successfuly',
+            'success'
+          );
+        });
       }
-    }).then( () =>
-      swal({
-      title: 'Processing...',
-      text: 'Deleting The Category - ' + category.name,
-      timer: 1500,
-      onOpen: () => {
-        swal.showLoading();
-      }
-    }).then(() => {
-      swal(
-        'Done, ',
-        'The Category ' + category.name + ' Deleted Successfuly',
-        'success'
-      );
-    })
-    );
+    });
   }
 
   public addCategory() {
