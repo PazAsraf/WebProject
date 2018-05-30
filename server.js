@@ -1,13 +1,13 @@
 // Definition
-const express = require('express');
-const bodyParser = require('body-parser');
-const path = require('path');
-const app = express();
-const port = 8081;
-const http = require('http');
+var express = require('express');
+var bodyParser = require('body-parser');
+var path = require('path');
+var app = express();
+var port = 8081;
+var server = require('http').Server(app);
 
 // API file for interacting with MongoDB
-const api = require('./server/mongo');
+var api = require('./server/mongo');
 
 // Parsers
 app.use(bodyParser.json());
@@ -24,20 +24,29 @@ app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'dist/index.html'));
 });
 
-const server = http.createServer(app);
-var io = require('socket.io').listen(server);
+var io = require('socket.io')(server);
+
+//call mongo to init self
+api.getProducts();
 
 // Sockets
-io.sockets.on('connection', function (client) {
+io.on('connection', function(socket){
+	console.log('store connected');
 
-		client.on('categories', function(data){
-				console.log('cat!');
-				console.log(data);
-				client.broadcast.emit("categories", data);
-		});
-		console.log("Connected!");
-		console.log(client.id);
+	var products = api.getProducts();
+	for (prod in products){
+		console.log('sending products');
+		socket.emit('new-product', products[prod])
+	}
+
+    socket.on('disconnect', function() {
+        console.log('store disconnected');
+    });
+
+    socket.on('send-message', (message) => {
+		console.log('received message: ' + message);
+    });
 });
 
-// Listen to port 8080
+// Listen to port {port}
 server.listen(port, () => console.log(`Running on localhost:${port}`));

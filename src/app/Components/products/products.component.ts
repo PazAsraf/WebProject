@@ -19,6 +19,8 @@ export class ProductsComponent implements OnInit {
   public updateMode: boolean = false;
 
   constructor(private _productsService: ProductsService, private _categoriesService: CategoriesService) {
+    this.products = [];
+
     // Get all categories
     this._categoriesService.getAllCategories().subscribe(allCategories => {
           this.categories = allCategories;
@@ -26,16 +28,19 @@ export class ProductsComponent implements OnInit {
           console.log(err);
         });
 
-    // Get all ProductsServic
-    this._productsService.getAllProducts().subscribe(allProducts => {
-      this.products = allProducts;
-    }, (err)=> {
+    this._productsService.getProducts().subscribe(result => {
+      this.products = result;
+    }, (err) => {
       console.log(err);
     });
   }
 
   public getCategory(categoryId: string) {
-    return this.categories.filter(c=> c._id == categoryId)[0].name;
+    if (this.categories){
+      return this.categories.filter(c=> c._id == categoryId)[0].name;
+    } else {
+      return "not loaded yet";
+    }
   }
 
   // Search
@@ -90,12 +95,13 @@ export class ProductsComponent implements OnInit {
 
   public finishUpdate() {
     // Get all ProductsServic
-    this._productsService.getAllProducts().subscribe(allProducts => {
-      this.products = allProducts;
-      this.updateMode = false;
-    }, (err)=> {
-      console.log(err);
-    });
+
+    // this._productsService.getAllProducts().subscribe(allProducts => {
+    //   this.products = allProducts;
+    //   this.updateMode = false;
+    // }, (err)=> {
+    //   console.log(err);
+    // });
   }
   ngOnInit() {
   }

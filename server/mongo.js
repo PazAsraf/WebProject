@@ -6,6 +6,8 @@ const ObjectID = require('mongodb').ObjectID;
 // dbname
 const dbName = 'Vibe';
 
+var products = [];
+
 // Connect
 const connection = (closure) => {
   return MongoClient.connect('mongodb://localhost:27017/' + dbName, (err, db) => {
@@ -28,6 +30,21 @@ let response = {
   data: [],
   message: null
 };
+
+var getProducts = function(){
+	if (products.length > 0) {
+		console.log("returning products from cache");
+		return products;
+	} else {
+		console.log("returning products from db");
+		connection((db) => {
+			let dbInstance = db.db(dbName);
+			dbInstance.collection('products').find().toArray(function (err, items) {
+				products = items;
+			});
+		});
+	}
+}
 
 // api - get categories
 router.get('/categories', function(request, response) {
@@ -70,9 +87,10 @@ router.get('/products', function(request, response) {
 	connection((db) => {
 		let dbInstance = db.db(dbName);
 		dbInstance.collection('products').find().toArray(function (err, items) {
-		response.json(items);
+			products = items;
 		});
 	});
+	response.json(products);
 });
 
 // api - products - search
@@ -174,3 +192,4 @@ router.get('/store', function(request, response) {
 
 
 module.exports = router;
+module.exports.getProducts = getProducts;
