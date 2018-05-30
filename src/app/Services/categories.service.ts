@@ -26,4 +26,12 @@ export class CategoriesService {
     headers.append('Content-Type', 'application/json');
     return this._http.post("/api/categories/" + category, { headers: headers });
   }
+
+  public getAvgPrice() : Observable<any[]> {
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    return this._http.get("/api/avg-by-category", { headers })
+      .map(result =>
+        result.json());
+  }
 }

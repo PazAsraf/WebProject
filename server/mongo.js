@@ -155,10 +155,30 @@ router.get('/products-by-category', function(request, response) {
 				{ $group: { "_id": "$categoryId", "count": { $sum: 1 } } }
 			]
 		).toArray(function(err, result) {
-			console.log(result);
-			response.json(result);
+			// get categories names
+      dbInstance.collection('categories').find().toArray(function (err, categories) {
+        let a = result.map((res) => ({ count : res.count, name: categories.find((cat) => cat._id == res._id).name}));
+        response.json(a);
+      });
 		});
 	});
+});
+
+router.get('/avg-by-category', function(request, response) {
+  connection((db) => {
+    let dbInstance = db.db(dbName);
+  dbInstance.collection('products').aggregate(
+    [
+      { $group: { "_id": "$categoryId", "avg": { $avg: "$price" } } }
+    ]
+  ).toArray(function(err, result) {
+    // get categories names
+    dbInstance.collection('categories').find().toArray(function (err, categories) {
+      let a = result.map((res) => ({ avg : res.avg, name: categories.find((cat) => cat._id == res._id).name}));
+      response.json(a);
+    });
+  });
+});
 });
 
 // api - store
