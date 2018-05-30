@@ -11,7 +11,11 @@ export class StatisticsComponent {
   public pieChartLabels: string[] ;
   public pieChartData: number[];
   public barChartLabels: string[] ;
-  public barChartData: number[];
+  public barChartData: any[];
+  public barChartOptions:any = {
+    scaleShowVerticalLines: false,
+    responsive: true
+  };
 
   constructor(private _productsService: ProductsService,
               private _categoriesService: CategoriesService) {
@@ -24,7 +28,9 @@ export class StatisticsComponent {
 
     this._categoriesService.getAvgPrice().subscribe(grouped => {
       this.barChartLabels = grouped.map((item) => item.name);
-      this.barChartData = grouped.map((item) => item.avg);
+      this.barChartData = grouped.map((item) => ({data: [item.avg,20,20], label: item.name}))
+      console.log(this.barChartData);
+      console.log(this.barChartLabels);
     }, (err) => {
       console.log(err);
     });

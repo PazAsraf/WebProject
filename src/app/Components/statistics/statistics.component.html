@@ -9,8 +9,10 @@
   <div>
     <h2>Average Price Per Category</h2>
   <canvas *ngIf="barChartData" baseChart
-          [data]="barChartData"
+          [datasets]="barChartData"
           [labels]="barChartLabels"
-          [chartType]="'bar'"></canvas>
+          [chartType]="'bar'"
+          [legend]="false"
+          ></canvas>
   </div>
 </div>
