@@ -68,6 +68,5 @@ var myio = io.on('connection', function(socket){
 	});
 });
 
-
 // Listen to port {port}
 server.listen(port, () => console.log(`Running on localhost:${port}`));

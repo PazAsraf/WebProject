@@ -1,24 +1,38 @@
-import { Component, OnInit } from '@angular/core';
-import { ProductsService } from '../../Services/products.service';
+import {Component, OnInit} from '@angular/core';
+import {ProductsService} from '../../Services/products.service';
+import {CategoriesService} from "../../Services/categories.service";
 
 @Component({
   selector: 'app-statistics',
   templateUrl: './statistics.component.html',
   styleUrls: ['./statistics.component.css']
 })
-export class StatisticsComponent implements OnInit {
+export class StatisticsComponent {
+  public pieChartLabels: string[] ;
+  public pieChartData: number[];
+  public barChartLabels: string[] ;
+  public barChartData: any[];
+  public barChartOptions:any = {
+    scaleShowVerticalLines: false,
+    responsive: true
+  };
 
-  public statistics: any;
-
-  constructor(private _productsService: ProductsService) {
+  constructor(private _productsService: ProductsService,
+              private _categoriesService: CategoriesService) {
     this._productsService.productsByCategory().subscribe(grouped => {
-      this.statistics = grouped;
-    }, (err)=> {
+      this.pieChartData = grouped.map((item) => item.count);
+      this.pieChartLabels = grouped.map((item) => item.name);
+    }, (err) => {
+      console.log(err);
+    });
+
+    this._categoriesService.getAvgPrice().subscribe(grouped => {
+      this.barChartLabels = grouped.map((item) => item.name);
+      this.barChartData = grouped.map((item) => ({data: [item.avg,20,20], label: item.name}))
+      console.log(this.barChartData);
+      console.log(this.barChartLabels);
+    }, (err) => {
       console.log(err);
     });
   }
-
-  ngOnInit() {
-  }
-
 }

@@ -90,32 +90,6 @@ router.post('/products/search', function(request, response) {
 	});
 });
 
-// api - products - get by category
-router.get('/products-by-category', function(request, response) {
-	connection((db) => {
-		let dbInstance = db.db(dbName);
-		dbInstance.collection('products').aggregate(
-			[
-				{ $group: { "_id": "$categoryId", "count": { $sum: 1 } } }
-			]
-		).toArray(function(err, result) {
-			console.log(result);
-			response.json(result);
-		});
-	});
-});
-
-// api - store
-router.get('/store', function(request, response) {
-	connection((db) => {
-		let dbInstance = db.db(dbName);
-		dbInstance.collection('stores').find().toArray(function (err, items) {
-			console.log(items[0]);
-			response.json(items[0]);
-		});
-	});
-});
-
 var getProducts = function(){
 	return new Promise (function(resolve, reject){
 		if (products.length > 0) {
@@ -238,6 +212,52 @@ router.delete('/products/:id', function(request, response) {
 	});
 });
 
+
+// api - products - get by category
+router.get('/products-by-category', function(request, response) {
+	connection((db) => {
+		let dbInstance = db.db(dbName);
+		dbInstance.collection('products').aggregate(
+			[
+				{ $group: { "_id": "$categoryId", "count": { $sum: 1 } } }
+			]
+		).toArray(function(err, result) {
+			// get categories names
+      dbInstance.collection('categories').find().toArray(function (err, categories) {
+        let a = result.map((res) => ({ count : res.count, name: categories.find((cat) => cat._id == res._id).name}));
+        response.json(a);
+      });
+		});
+	});
+});
+
+router.get('/avg-by-category', function(request, response) {
+  connection((db) => {
+    let dbInstance = db.db(dbName);
+  dbInstance.collection('products').aggregate(
+    [
+      { $group: { "_id": "$categoryId", "avg": { $avg: "$price" } } }
+    ]
+  ).toArray(function(err, result) {
+    // get categories names
+    dbInstance.collection('categories').find().toArray(function (err, categories) {
+      let a = result.map((res) => ({ avg : res.avg, name: categories.find((cat) => cat._id == res._id).name}));
+      response.json(a);
+    });
+  });
+});
+});
+
+// api - store
+router.get('/store', function(request, response) {
+	connection((db) => {
+		let dbInstance = db.db(dbName);
+		dbInstance.collection('stores').find().toArray(function (err, items) {
+			console.log(items[0]);
+			response.json(items[0]);
+		});
+	});
+});
 
 module.exports = router;
 module.exports.getProducts = getProducts;

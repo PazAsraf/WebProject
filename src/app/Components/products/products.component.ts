@@ -19,12 +19,16 @@ export class ProductsComponent implements OnInit {
   public updateMode: boolean = false;
 
   constructor(private _productsService: ProductsService, private _categoriesService: CategoriesService) {
+    
+  }
+
+  ngOnInit() {
     // Get all categories
     this._categoriesService.getAllCategories().subscribe(allCategories => {
-          this.categories = allCategories;
-        }, (err) => {
-          console.log(err);
-        });
+      this.categories = allCategories;
+    }, (err) => {
+      console.log(err);
+    });
 
     this._productsService.getProducts().subscribe(result => {
       console.log("update to products: ", result.length);
@@ -62,12 +66,6 @@ export class ProductsComponent implements OnInit {
       confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
       if (result.value) {
-        // this._productsService.removeProduct(product._id).subscribe(() => {
-        //   this.products.splice(this.products.indexOf(product), 1);
-        // }, (err) => {
-        //   console.log(err);
-        // });
-
         this._productsService.removeProduct(product);
 
         swal({
@@ -103,8 +101,6 @@ export class ProductsComponent implements OnInit {
     // }, (err)=> {
     //   console.log(err);
     // });
-  }
-  ngOnInit() {
   }
 
 }

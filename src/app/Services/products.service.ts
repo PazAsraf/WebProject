@@ -61,10 +61,10 @@ export class ProductsService {
         result.json());
   }
 
-  public productsByCategory() : Observable<Product[]> {
+  public productsByCategory() : Observable<any[]> {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    return this._http.post("/api/products-by-category", { headers })
+    return this._http.get("/api/products-by-category", { headers })
       .map(result =>
         result.json());
   }
