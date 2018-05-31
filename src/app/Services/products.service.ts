@@ -6,39 +6,53 @@ import { Observable } from 'rxjs/Observable';
 import * as io from 'socket.io-client';
 
 @Injectable()
-export class ProductsService{
+export class ProductsService {
   private url = 'http://127.0.0.1:8081';
-  private products = []
+  private socket;
+
+  private products;
+  private productsObservable;
 
   constructor(private _http: Http) { 
-  }
+    this.initWebSocket()
 
-  // public getAllProducts() : Observable<Product[]> {
-  //   return this._http.get("/api/products")
-  //     .map(result =>
-  //       result.json());
-  // }
-
-  public getProducts() : Observable<any>{
-    let observable = new Observable(observer => {
-      var socket = io(this.url);
-      var products = []
-
-      socket.on('connect', function(){
-        console.log('socket connected');
-        socket.emit('send-message', 'store reporting');
+    this.products = [];
+    this.productsObservable = new Observable(observer => {
+      this.socket.on('new-product', (product) => {
+        if (!this.products.find(prod => prod._id === product._id)){
+          this.products.push(product);
+          observer.next(this.products);
+        }
       });
 
-      socket.on('new-product', (product) => {
-        products.push(product);
-        observer.next(products);
+      this.socket.on('delete-product', (product) => {
+        this.products = this.products.filter(prod => prod._id != product._id);
+        observer.next(this.products);
+      });
+
+      this.socket.on('update-product', (product) => {
+        let prod = this.products.find(item => item._id === product._id);
+        this.products[this.products.indexOf(prod)] = product;
+        // this.products = this.products.filter(prod => prod._id != product._id);
+        // this.products.push(product);
+        observer.next(this.products);
       });
 
       return () => {
-        socket.disconnect();
+        this.socket.disconnect();
       };  
-    })     
-    return observable;
+    })
+  }
+
+  initWebSocket(){
+    this.socket = io(this.url);
+    this.socket.on('connect', function(sock){
+      console.log('socket connected');
+    });
+  }
+
+  public getProducts() : Observable<any>{
+    return this.productsObservable;
   } 
 
   public searchProducts(searchProduct: Product) : Observable<Product[]> {
@@ -55,21 +69,16 @@ export class ProductsService{
         result.json());
   }
 
-  public removeProduct(productId: string): Observable<any> {
-    const headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-    return this._http.delete('/api/products/' + productId, { headers });
+  public removeProduct(product: Product){
+    this.socket.emit('delete-product', product);
   }
 
-  public addProduct(newProduct: Product): Observable<any> {
-    let headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-    return this._http.post("/api/products", newProduct, { headers: headers });
+  public addProduct(newProduct: Product){
+    this.socket.emit('add-product', newProduct);
   }
 
-  public updateProduct(productToUpdate: Product): Observable<any> {
-    let headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-    return this._http.put("/api/products", productToUpdate, { headers: headers });
+  public updateProduct(productToUpdate: Product){
+    this.socket.emit('update-product', productToUpdate);
   }
+
 }

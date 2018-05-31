@@ -69,27 +69,23 @@ export class NewProductComponent implements OnInit {
 
     this.isCategoryError = false;
 
-    this._productsService.addProduct(this.newProduct).subscribe(rep => {
-      //return to all products
-      this.router.navigate(['/products']);
-    }, (err) => {
-      console.log(err);
-    });
+    this._productsService.addProduct(this.newProduct);
+    this.router.navigate(['/products']);
 
-    swal({
-      title: 'Processing...',
-      text: 'Adding Product - ' + this.newProduct.name,
-      timer: 1500,
-      onOpen: () => {
-        swal.showLoading();
-      }
-    }).then( () =>
-      swal(
-        'Done, ',
-        'The Product ' + this.newProduct.name + ' Added Successfully',
-        'success'
-      )
-    );
+    // swal({
+    //   title: 'Processing...',
+    //   text: 'Adding Product - ' + this.newProduct.name,
+    //   timer: 1500,
+    //   onOpen: () => {
+    //     swal.showLoading();
+    //   }
+    // }).then( () =>
+    //   swal(
+    //     'Done, ',
+    //     'The Product ' + this.newProduct.name + ' Added Successfully',
+    //     'success'
+    //   )
+    // );
   }
 
   ngOnInit() {
