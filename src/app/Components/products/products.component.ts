@@ -19,23 +19,31 @@ export class ProductsComponent implements OnInit {
   public updateMode: boolean = false;
 
   constructor(private _productsService: ProductsService, private _categoriesService: CategoriesService) {
+    
+  }
+
+  ngOnInit() {
     // Get all categories
     this._categoriesService.getAllCategories().subscribe(allCategories => {
-          this.categories = allCategories;
-        }, (err) => {
-          console.log(err);
-        });
+      this.categories = allCategories;
+    }, (err) => {
+      console.log(err);
+    });
 
-    // Get all ProductsServic
-    this._productsService.getAllProducts().subscribe(allProducts => {
-      this.products = allProducts;
-    }, (err)=> {
+    this._productsService.getProducts().subscribe(result => {
+      console.log("update to products: ", result.length);
+      this.products = result;
+    }, (err) => {
       console.log(err);
     });
   }
 
   public getCategory(categoryId: string) {
-    return this.categories.filter(c=> c._id == categoryId)[0].name;
+    if (this.categories){
+      return this.categories.filter(c=> c._id == categoryId)[0].name;
+    } else {
+      return "not loaded yet";
+    }
   }
 
   // Search
@@ -58,11 +66,7 @@ export class ProductsComponent implements OnInit {
       confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
       if (result.value) {
-        this._productsService.removeProduct(product._id).subscribe(() => {
-          this.products.splice(this.products.indexOf(product), 1);
-        }, (err) => {
-          console.log(err);
-        });
+        this._productsService.removeProduct(product);
 
         swal({
           title: 'Processing...',
@@ -85,19 +89,18 @@ export class ProductsComponent implements OnInit {
   public updateProduct(product: Product) {
     this.selectedProduct = product;
     this.updateMode = true;
-
   }
 
   public finishUpdate() {
+    this.updateMode = false;
     // Get all ProductsServic
-    this._productsService.getAllProducts().subscribe(allProducts => {
-      this.products = allProducts;
-      this.updateMode = false;
-    }, (err)=> {
-      console.log(err);
-    });
-  }
-  ngOnInit() {
+
+    // this._productsService.getAllProducts().subscribe(allProducts => {
+    //   this.products = allProducts;
+    //   this.updateMode = false;
+    // }, (err)=> {
+    //   console.log(err);
+    // });
   }
 
 }

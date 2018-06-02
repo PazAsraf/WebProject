@@ -1,13 +1,13 @@
 // Definition
-const express = require('express');
-const bodyParser = require('body-parser');
-const path = require('path');
-const app = express();
-const port = 8081;
-const http = require('http');
+var express = require('express');
+var bodyParser = require('body-parser');
+var path = require('path');
+var app = express();
+var port = 8081;
+var server = require('http').Server(app);
 
 // API file for interacting with MongoDB
-const api = require('./server/mongo');
+var api = require('./server/mongo');
 
 // Parsers
 app.use(bodyParser.json());
@@ -24,20 +24,49 @@ app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'dist/index.html'));
 });
 
-const server = http.createServer(app);
-var io = require('socket.io').listen(server);
+var io = require('socket.io')(server);
 
 // Sockets
-io.sockets.on('connection', function (client) {
+var myio = io.on('connection', function(socket){
+	console.log('store connected');
 
-		client.on('categories', function(data){
-				console.log('cat!');
-				console.log(data);
-				client.broadcast.emit("categories", data);
+	var products = api.getProducts().then(products => {
+		for (prod in products){
+			socket.emit('new-product', products[prod])
+		}
+	});
+
+    socket.on('disconnect', function() {
+        console.log('store disconnected');
+	});
+	
+	socket.on('add-product', function(product) {
+		console.log("add product message");
+		api.createProduct(product).then(product => {
+			io.sockets.emit('new-product', product);
 		});
-		console.log("Connected!");
-		console.log(client.id);
+	});
+
+	socket.on('delete-product', function(product) {
+		console.log("received delete product message");
+		api.deleteProduct(product).then(product => {
+			console.log("sending delete product message");
+			io.sockets.emit('delete-product', product);
+		});
+	});
+
+	socket.on('update-product', function(product) {
+		console.log("received update product message");
+		api.updateProduct(product).then(product => {
+			console.log("sending update product message");
+			io.sockets.emit('update-product', product);
+		});
+	});
+
+    socket.on('send-message', (message) => {
+		console.log('received message: ' + message);
+	});
 });
 
-// Listen to port 8080
+// Listen to port {port}
 server.listen(port, () => console.log(`Running on localhost:${port}`));

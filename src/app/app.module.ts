@@ -26,6 +26,7 @@ import { CategoryPipe } from './Pipes/category.pipe';
 
 // Routes
 import { routing } from "./app.routes";
+import {ChartsModule} from "ng2-charts";
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { routing } from "./app.routes";
     HttpModule,
     routing,
     FormsModule,
+    ChartsModule,
     HttpClientModule,      // (Required) for share counts
     HttpClientJsonpModule, // (Optional) For Tumblr counts
     ShareButtonModule.forRoot(),

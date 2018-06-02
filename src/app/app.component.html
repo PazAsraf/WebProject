@@ -1,40 +1,29 @@
-    <body>
-        <nav class="navbar navbar-inverse navbar-fixed-top">
-            <div class="container">
-                <img class="logoImage" src="assets/images/vibeLogo.png" />
-                <div class="navbar-header">
-                    <a class="navbar-brand" routerLink="main-page">Vibe</a>
-                </div>
-
-                <div class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav">
-                        <li><a routerLink="categories">Categories</a></li>
-                        <li><a routerLink="products">Products</a></li>
-                        <li><a routerLink="about-us">About Us</a></li>
-                        <li><a routerLink="statistics">Statistics</a></li>
-                    </ul>
-                </div>
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <img class="logoImage" src="assets/images/vibeLogo.png" />
+            <div class="navbar-header">
+                <a class="navbar-brand" routerLink="main-page">Vibe</a>
             </div>
-        </nav>
-        <div class="container body-content background">
-            <!--<div ui-view></div>-->
-            <router-outlet></router-outlet>
+
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a routerLink="categories">Categories</a></li>
+                    <li><a routerLink="products">Products</a></li>
+                    <li><a routerLink="about-us">About Us</a></li>
+                    <li><a routerLink="statistics">Statistics</a></li>
+                </ul>
+            </div>
         </div>
-        <hr />
-        <footer>
-            <canvas id="myCanvas">
-                Your browser does not support the HTML5 canvas tag.
-            </canvas>
-        </footer>
-
-        <!--<script src="scripts/vendor/jquery-1.10.2.js"></script>
-        <script src="scripts/vendor/jquery.simpleWeather.js"></script>
-        <script src="scripts/vendor/underscore.min.js"></script>
-        <script src="scripts/vendor/angular.js"></script>
-        <script src="scripts/vendor/angular-ui-router.js"></script>-->
-        <script src="scripts/app/productsCtrl.js"></script>
-        <script src="scripts/vendor/Images.js"></script>
-        <script src="scripts/app/aboutCtrl.js"></script>
-        <script src="scripts/app/graphCtrl.js"></script>
-
-    </body>
+    </nav>
+    <div class="container body-content background">
+        <!--<div ui-view></div>-->
+        <router-outlet></router-outlet>
+    </div>
+    <hr />
+    <footer>
+        <canvas id="myCanvas">
+            Your browser does not support the HTML5 canvas tag.
+        </canvas>
+    </footer>
+</body>

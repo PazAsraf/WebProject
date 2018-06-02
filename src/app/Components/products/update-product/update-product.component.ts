@@ -62,11 +62,9 @@ export class UpdateProductComponent implements OnInit {
 
     this.isCategoryError = false;
 
-    this._productsService.updateProduct(this.productToEdit).subscribe(() => {
-      this.onFinish.emit();
-    }, (err) => {
-      console.log(err);
-    });
+    this._productsService.updateProduct(this.productToEdit);
+
+    this.onFinish.emit();
 
     swal({
       title: 'Processing...',
