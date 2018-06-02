@@ -250,13 +250,36 @@ router.get('/avg-by-category', function(request, response) {
 
 // api - store
 router.get('/store', function(request, response) {
-	connection((db) => {
-		let dbInstance = db.db(dbName);
-		dbInstance.collection('stores').find().toArray(function (err, items) {
-			console.log(items[0]);
-			response.json(items[0]);
-		});
-	});
+  connection((db) => {
+    let dbInstance = db.db(dbName);
+    dbInstance.collection('stores').find().toArray(function (err, items) {
+      response.json(items[0]);
+    });
+  });
+});
+
+router.get('/store/weather', function(request, response) {
+  connection((db) => {
+    let dbInstance = db.db(dbName);
+    dbInstance.collection('stores').find().toArray(function (err, items) {
+      let req = require('request');
+
+      let apiKey = '3c8ccaef5bef6089ca98b19e860c995f';
+      let url = 'http://api.openweathermap.org/data/2.5/weather?units=metric&lat=' + items[0].lat + '&lon=' + items[0].lng + '&appid=' + apiKey;
+
+      req(url, function (err, res, body) {
+        if(err){
+          console.log('error:', error);
+        } else {
+          weather = JSON.parse(body);
+          console.log(items[0].lat);
+          console.log(items[0].lng);
+          response.json(weather);
+          console.log('Weather:', weather);
+        }
+      });
+    });
+  });
 });
 
 module.exports = router;

@@ -14,4 +14,9 @@ export class StoreService {
       .map(result =>
         result.json());
   }
+
+  public getStoreWeather() {
+    return (this._http.get("/api/store/weather")
+      .map(result => result.json()));
+  }
 }
