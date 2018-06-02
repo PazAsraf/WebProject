@@ -13,7 +13,20 @@
 </aside>
 
 <br/><br/>
-
-<agm-map [latitude]="myStore.lat" [longitude]="myStore.lng">
-  <agm-marker [latitude]="myStore.lat" [longitude]="myStore.lng"></agm-marker>
-</agm-map>
+<div class="container">
+  <div class="row">
+    <agm-map [latitude]="myStore.lat" [longitude]="myStore.lng" class="col-sm-8" [zoom]="12">
+      <agm-marker [latitude]="myStore.lat" [longitude]="myStore.lng"></agm-marker>
+    </agm-map>
+    <div class="card col-sm-4">
+      <h2>Weather Near Address</h2>
+      <div class="cardContainer">
+        <h4> <b>{{storeWeather.main.temp}} &#8451;</b> </h4>
+        <p style="display: inline-block;"> <b>{{storeWeather.weather[0].description}}</b></p>
+        <img style="display: inline" src={{weatherIconURL}}>
+        <p> <b> Humidity: </b> {{storeWeather.main.humidity}}%</p>
+        <p> <b> Wind Speed: </b> {{storeWeather.wind.speed}} &#9873; </p>
+      </div>
+    </div>
+  </div>
+</div>
