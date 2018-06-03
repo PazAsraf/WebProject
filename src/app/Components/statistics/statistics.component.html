@@ -1,18 +1,21 @@
 <div style="display: block">
   <div>
     <h2>Products By Category</h2>
-  <canvas *ngIf="pieChartData" baseChart
-          [data]="pieChartData"
-          [labels]="pieChartLabels"
-          [chartType]="'pie'"></canvas>
+    <div class="graph">
+      <canvas *ngIf="pieChartData" baseChart
+              [data]="pieChartData"
+              [labels]="pieChartLabels"
+              [chartType]="'pie'"></canvas>
+    </div>
   </div>
   <div>
     <h2>Average Price Per Category</h2>
-  <canvas *ngIf="barChartData" baseChart
-          [datasets]="barChartData"
-          [labels]="barChartLabels"
-          [chartType]="'bar'"
-          [legend]="false"
-          ></canvas>
+    <div class="graph">
+      <canvas *ngIf="barChartData" baseChart
+              [datasets]="barChartData"
+              [labels]="barChartLabels"
+              [chartType]="'bar'"
+              [legend]="false"></canvas>
+    </div>
   </div>
 </div>
