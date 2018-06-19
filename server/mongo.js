@@ -43,7 +43,6 @@ router.get('/categories', function(request, response) {
 
 // api - get most popular category by season
 router.get('/categories/popularBySeason/:season', function(request, response) {
-	console.log("ha");
 	getMostPopularCategoryBySeason(request.params.season).then(result => {
 		response.json(result);
 	})

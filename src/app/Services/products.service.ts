@@ -2,6 +2,7 @@ import { Injectable, OnInit } from '@angular/core';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { Product } from '../Objects/Product';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import * as io from 'socket.io-client';
 
@@ -10,6 +11,8 @@ export class ProductsService {
   private url = 'http://127.0.0.1:8081';
   private socket;
 
+  private subject: BehaviorSubject<any[]> = new BehaviorSubject([]);
+
   private products;
   private productsObservable;
 
@@ -17,6 +20,7 @@ export class ProductsService {
     this.initWebSocket()
 
     this.products = [];
+    
     this.productsObservable = new Observable(observer => {
       this.socket.on('new-product', (product) => {
         if (!this.products.find(prod => prod._id === product._id)){
@@ -42,6 +46,10 @@ export class ProductsService {
         this.socket.disconnect();
       };  
     })
+
+    this.productsObservable.subscribe(data => {
+      this.subject.next(data);
+    });
   }
 
   initWebSocket(){
@@ -52,7 +60,7 @@ export class ProductsService {
   }
 
   public getProducts() : Observable<any>{
-    return this.productsObservable;
+    return this.subject.asObservable();
   } 
 
   public searchProducts(searchProduct: Product) : Observable<Product[]> {
