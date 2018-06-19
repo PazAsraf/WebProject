@@ -1,5 +1,22 @@
 <div style="display: block">
   <div>
+    <h3>Seasonal popular categories</h3>
+    <table class="table">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">Season</th>
+          <th>Popular Category</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr  *ngFor="let season of objectKeys(seasonalPopularCategories)">
+          <td>{{season}}</td><td>{{seasonalPopularCategories[season]}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <br/>
+  <div>
     <h2>Products By Category</h2>
     <div class="graph">
       <canvas *ngIf="pieChartData" baseChart
@@ -8,6 +25,7 @@
               [chartType]="'pie'"></canvas>
     </div>
   </div>
+  <br/>
   <div>
     <h2>Average Price Per Category</h2>
     <div class="graph">

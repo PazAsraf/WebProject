@@ -34,4 +34,10 @@ export class CategoriesService {
       .map(result =>
         result.json());
   }
+
+  public getMostPopularBySeason(season) : Observable<any[]> {
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    return this._http.get("/api/categories/popularBySeason/"+season, { headers }).map(result => result.json());
+  }
 }

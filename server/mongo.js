@@ -41,6 +41,14 @@ router.get('/categories', function(request, response) {
 	});
 });
 
+// api - get most popular category by season
+router.get('/categories/popularBySeason/:season', function(request, response) {
+	console.log("ha");
+	getMostPopularCategoryBySeason(request.params.season).then(result => {
+		response.json(result);
+	})
+});
+
   // api - categories - post by name
 router.post('/categories/:name', function(request, response) {
 	connection((db) => {
@@ -112,11 +120,27 @@ var createProduct = function(product){
 	return new Promise (function(resolve, reject){
 		connection((db) => {
 			let dbInstance = db.db(dbName);
+			product.categoryId = new ObjectID(product.categoryId);
 			dbInstance.collection('products').insert(product, function(err, result) {
-				console.log("inserted " + result);
-				//request.body._id = result.inserted_ids[0];
-				products.push(product);
-				resolve(product);
+				console.log("products: inserted " + result);
+
+				var month = new Date().getMonth();
+				var season;
+				if (month <= 1 || month >= 11) {
+					season = "winter";
+				} else if (month >= 2 && month <= 4) {
+					season = "spring";
+				} else if (month >= 5 && month <= 7) {
+					season = "summer";
+				} else {
+					season = "autumn";
+				}
+				product.season = season;
+				dbInstance.collection('retained_products').insert(product, function(err, result) {
+					console.log("retained_products: inserted " + result);
+					products.push(product);
+					resolve(product);
+				});
 			});
 		});
 	});
@@ -156,6 +180,27 @@ var updateProduct = function(product){
 				.catch((err) => {
 					console.log(err);
 				});
+		});
+	});
+}
+
+var getMostPopularCategoryBySeason = function(req_season){
+	return new Promise (function(resolve, reject){
+		connection((db) => {
+			let dbInstance = db.db(dbName);
+			let query = [
+				{"$match": {"season":req_season}},
+				{"$group": {"_id":  {categoryId: "$categoryId"}, "count": { "$sum": 1 }}},
+				{"$sort" : { count : -1 } },
+				{"$lookup": {from: "categories", localField: "_id.categoryId", foreignField: "_id", as: "category"}}
+			];
+			dbInstance.collection('retained_products').aggregate(query).toArray(function (err, items) {
+				if (items.length > 0){
+					resolve(items[0].category[0]);
+				} else {
+					resolve({"name": "none", "_id": -1});
+				}
+			});
 		});
 	});
 }
@@ -217,35 +262,29 @@ router.delete('/products/:id', function(request, response) {
 router.get('/products-by-category', function(request, response) {
 	connection((db) => {
 		let dbInstance = db.db(dbName);
-		dbInstance.collection('products').aggregate(
-			[
-				{ $group: { "_id": "$categoryId", "count": { $sum: 1 } } }
-			]
-		).toArray(function(err, result) {
-			// get categories names
-      dbInstance.collection('categories').find().toArray(function (err, categories) {
-        let a = result.map((res) => ({ count : res.count, name: categories.find((cat) => cat._id == res._id).name}));
-        response.json(a);
-      });
+		let query = [
+			{"$group": { "_id": {categoryId: "$categoryId"}, "count": { $sum: 1 } } },
+			{"$lookup": {from: "categories", localField: "_id.categoryId", foreignField: "_id", as: "category"}}
+		];
+		dbInstance.collection('products').aggregate(query).toArray(function (err, items) {
+			let result = items.map((item) => ({ count: item.count, name: item.category[0].name}));
+			response.json(result);
 		});
 	});
 });
 
 router.get('/avg-by-category', function(request, response) {
   connection((db) => {
-    let dbInstance = db.db(dbName);
-  dbInstance.collection('products').aggregate(
-    [
-      { $group: { "_id": "$categoryId", "avg": { $avg: "$price" } } }
-    ]
-  ).toArray(function(err, result) {
-    // get categories names
-    dbInstance.collection('categories').find().toArray(function (err, categories) {
-      let a = result.map((res) => ({ avg : res.avg, name: categories.find((cat) => cat._id == res._id).name}));
-      response.json(a);
-    });
-  });
-});
+		let dbInstance = db.db(dbName);
+		let query = [
+			{"$group": { "_id": {categoryId: "$categoryId"}, "avg": { $avg: "$price" } } },
+			{"$lookup": {from: "categories", localField: "_id.categoryId", foreignField: "_id", as: "category"}}
+		];
+		dbInstance.collection('products').aggregate(query).toArray(function (err, items) {
+			let result = items.map((item) => ({ avg: item.avg, name: item.category[0].name}));
+			response.json(result);
+		});
+	});
 });
 
 // api - store
@@ -269,7 +308,7 @@ router.get('/store/weather', function(request, response) {
 
       req(url, function (err, res, body) {
         if(err){
-          console.log('error:', error);
+          console.log('error:', err);
         } else {
           weather = JSON.parse(body);
           console.log(items[0].lat);
@@ -283,7 +322,10 @@ router.get('/store/weather', function(request, response) {
 });
 
 module.exports = router;
+
 module.exports.getProducts = getProducts;
 module.exports.createProduct = createProduct;
 module.exports.updateProduct = updateProduct;
 module.exports.deleteProduct = deleteProduct;
+
+module.exports.getMostPopularCategoryBySeason = getMostPopularCategoryBySeason;

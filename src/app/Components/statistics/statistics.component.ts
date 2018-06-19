@@ -8,6 +8,8 @@ import {CategoriesService} from "../../Services/categories.service";
   styleUrls: ['./statistics.component.css']
 })
 export class StatisticsComponent {
+  objectKeys = Object.keys;
+
   public pieChartLabels: string[] ;
   public pieChartData: number[];
   public barChartLabels: string[] ;
@@ -16,9 +18,12 @@ export class StatisticsComponent {
     scaleShowVerticalLines: false,
     responsive: true
   };
+  public seasonalPopularCategories: {};
 
   constructor(private _productsService: ProductsService,
               private _categoriesService: CategoriesService) {
+    this.seasonalPopularCategories = {"winter": "unknown", "spring": "unknown", "summer": "unknown", "autumn": "unknown"};
+
     this._productsService.productsByCategory().subscribe(grouped => {
       this.pieChartData = grouped.map((item) => item.count);
       this.pieChartLabels = grouped.map((item) => item.name);
@@ -33,6 +38,14 @@ export class StatisticsComponent {
       console.log(this.barChartLabels);
     }, (err) => {
       console.log(err);
+    });
+
+    this.objectKeys(this.seasonalPopularCategories).forEach(season => {
+      this._categoriesService.getMostPopularBySeason(season).subscribe(res => {
+        this.seasonalPopularCategories[season] = res['name'];
+      }, (err) => {
+        console.log(err);
+      });
     });
   }
 }
