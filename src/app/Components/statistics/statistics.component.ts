@@ -24,12 +24,13 @@ export class StatisticsComponent {
               private _categoriesService: CategoriesService) {
     this.seasonalPopularCategories = {"winter": "unknown", "spring": "unknown", "summer": "unknown", "autumn": "unknown"};
 
-    this._productsService.productsByCategory().subscribe(grouped => {
-      this.pieChartData = grouped.map((item) => item.count);
-      this.pieChartLabels = grouped.map((item) => item.name);
-    }, (err) => {
-      console.log(err);
-    });
+    this.subscribeToProductsByCategory();
+    // this._productsService.productsByCategory().subscribe(grouped => {
+    //   this.pieChartData = grouped.map((item) => item.count);
+    //   this.pieChartLabels = grouped.map((item) => item.name);
+    // }, (err) => {
+    //   console.log(err);
+    // });
 
     this._categoriesService.getAvgPrice().subscribe(grouped => {
       this.barChartLabels = grouped.map((item) => item.name);
@@ -45,6 +46,19 @@ export class StatisticsComponent {
       }, (err) => {
         console.log(err);
       });
+    });
+
+    this._productsService.getProducts().subscribe(update => {
+      this.subscribeToProductsByCategory();
+    });
+  }
+
+  subscribeToProductsByCategory(){
+    this._productsService.productsByCategory().subscribe(grouped => {
+      this.pieChartData = grouped.map((item) => item.count);
+      this.pieChartLabels = grouped.map((item) => item.name);
+    }, (err) => {
+      console.log(err);
     });
   }
 }
